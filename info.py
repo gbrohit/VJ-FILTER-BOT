@@ -115,7 +115,7 @@ USE_CAPTION_FILTER = bool(environ.get('USE_CAPTION_FILTER', True))
 VERIFY = bool(environ.get('VERIFY', True))
 VERIFY_SHORTLINK_URL = environ.get('VERIFY_SHORTLINK_URL', 'nowshort.com')
 VERIFY_SHORTLINK_API = environ.get('VERIFY_SHORTLINK_API', '86668b40e4986c631ca9a2a56a0d85c1d35e9c63')
-VERIFY_TUTORIAL = environ.get('VERIFY_TUTORIAL', '')
+VERIFY_TUTORIAL = environ.get('VERIFY_TUTORIAL', 'https://t.me/TheInsomniacsClub/461')
 VERIFY_EXPIRE = int(environ.get('VERIFY_EXPIRE', 120)) # Time in seconds (86400 = 24 hours, 43200 = 12 hours)
 
 # If You Fill Second Shortner Then Bot Attach Both First And Second Shortner And Use It For Verify.
