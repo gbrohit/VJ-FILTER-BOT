@@ -1465,7 +1465,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             if AUTH_CHANNEL:
                 try:
                     user_data = await client.get_chat_member(AUTH_CHANNEL, query.from_user.id)
-                    if user_data.status != enums.ChatMemberStatus.BANNED:
+                    if user_data.status in [enums.ChatMemberStatus.OWNER, enums.ChatMemberStatus.ADMINISTRATOR, enums.ChatMemberStatus.MEMBER]:
                         is_in_auth = True
                 except:
                     pass
@@ -1481,7 +1481,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
                         is_in_req = True
                     else:
                         user_data = await client.get_chat_member(REQ_CHANNEL, query.from_user.id)
-                        if user_data.status != enums.ChatMemberStatus.BANNED:
+                        if user_data.status in [enums.ChatMemberStatus.OWNER, enums.ChatMemberStatus.ADMINISTRATOR, enums.ChatMemberStatus.MEMBER]:
                             is_in_req = True
                 except:
                     pass
