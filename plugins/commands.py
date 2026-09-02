@@ -87,31 +87,18 @@ async def start(client, message):
         )
         return
     
-    if (AUTH_CHANNEL or REQ_CHANNEL) and not await is_subscribed(client, message):
+    if AUTH_CHANNEL and not await is_subscribed(client, message):
         try:
-            btn = []
-            
-            # 1. Create Direct Join Button
-            if AUTH_CHANNEL:
-                try:
-                    auth_link = await client.create_chat_invite_link(int(AUTH_CHANNEL))
-                    btn.append([InlineKeyboardButton("📢 ᴊᴏɪɴ ᴄʜᴀɴɴᴇʟ", url=auth_link.invite_link)])
-                except Exception as e:
-                    print(e)
-                    await message.reply_text("Make sure Bot is admin in the Direct Forcesub channel.")
-                    return
-            
-            # 2. Create Request to Join Button
-            if REQ_CHANNEL:
-                try:
-                    req_link = await client.create_chat_invite_link(chat_id=int(REQ_CHANNEL), creates_join_request=True)
-                    btn.append([InlineKeyboardButton("📩 ʀᴇǫᴜᴇsᴛ ᴛᴏ ᴊᴏɪɴ", url=req_link.invite_link)])
-                except Exception as e:
-                    print(e)
-                    await message.reply_text("Make sure Bot is admin in the Request Forcesub channel.")
-                    return
-                    
-            # 3. Create Try Again Button
+            if REQUEST_TO_JOIN_MODE == True:
+                invite_link = await client.create_chat_invite_link(chat_id=(int(AUTH_CHANNEL)), creates_join_request=True)
+            else:
+                invite_link = await client.create_chat_invite_link(int(AUTH_CHANNEL))
+        except Exception as e:
+            print(e)
+            await message.reply_text("Make sure Bot is admin in Forcesub channel")
+            return
+        try:
+            btn = [[InlineKeyboardButton("📢 ᴊᴏɪɴ ᴄʜᴀɴɴᴇʟ", url=invite_link.invite_link)]]
             if len(message.command) > 1 and message.command[1] != "subscribe":
                 try:
                     kk, file_id = message.command[1].split("_", 1)
@@ -119,8 +106,7 @@ async def start(client, message):
                 except (IndexError, ValueError):
                     btn.append([InlineKeyboardButton("↻ ᴛʀʏ ᴀɢᴀɪɴ", url=f"https://t.me/{temp.U_NAME}?start={message.command[1]}")])
             
-            text = "**🕵️ ʏᴏᴜ ᴍᴜsᴛ ᴊᴏɪɴ & ʀᴇǫᴜᴇsᴛ ᴛᴏ ᴊᴏɪɴ ᴏᴜʀ ʙᴀᴄᴋᴜᴘ ᴄʜᴀɴɴᴇʟs ᴛᴏ ᴜsᴇ ᴛʜɪs ʙᴏᴛ! ᴊᴏɪɴ ᴛʜᴇɴ ᴛʀʏ ᴀɢᴀɪɴ.**"
-            
+            text = "**🕵️ ʏᴏᴜ ᴅᴏ ɴᴏᴛ ᴊᴏɪɴ ᴍʏ ʙᴀᴄᴋ-ᴜᴘ ᴄʜᴀɴɴᴇʟ ғɪʀsᴛ ᴊᴏɪɴ ᴄʜᴀɴɴᴇʟ ᴛʜᴇɴ ᴛʀʏ ᴀɢᴀɪɴ**"
             await client.send_message(
                 chat_id=message.from_user.id,
                 text=text,
@@ -130,7 +116,7 @@ async def start(client, message):
             return
         except Exception as e:
             print(e)
-            return await message.reply_text("Something went wrong with force subscribe.")
+            return await message.reply_text("something wrong with force subscribe.")
             
     if len(message.command) == 2 and message.command[1] in ["subscribe", "error", "okay", "help"]:
         if PREMIUM_AND_REFERAL_MODE == True:
