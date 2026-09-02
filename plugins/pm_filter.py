@@ -94,6 +94,9 @@ async def next_page(bot, query):
     except:
         offset = 0
     search = FRESH.get(key)
+   # if not search:
+      #  await query.answer(script.OLD_ALRT_TXT.format(query.from_user.first_name),show_alert=True)
+       # return
 
     files, n_offset, total = await get_search_results(query.message.chat.id, search, offset=offset, filter=True)
     try:
@@ -230,6 +233,8 @@ async def next_page(bot, query):
 async def advantage_spoll_choker(bot, query):
     _, user, movie_ = query.data.split('#')
     movies = SPELL_CHECK.get(query.message.reply_to_message.id)
+  #  if not movies:
+     #   return await query.answer(script.OLD_ALRT_TXT.format(query.from_user.first_name), show_alert=True)
     if int(user) != 0 and query.from_user.id != int(user):
         return await query.answer(script.ALRT_TXT.format(query.from_user.first_name), show_alert=True)
     if movie_ == "close_spellcheck":
@@ -260,6 +265,7 @@ async def advantage_spoll_choker(bot, query):
 # Year 
 @Client.on_callback_query(filters.regex(r"^years#"))
 async def years_cb_handler(client: Client, query: CallbackQuery):
+
     try:
         if int(query.from_user.id) not in [query.message.reply_to_message.from_user.id, 0]:
             return await query.answer(
@@ -384,6 +390,7 @@ async def filter_yearss_cb_handler(client: Client, query: CallbackQuery):
                 btn.append(
                     [InlineKeyboardButton("𝐏𝐀𝐆𝐄", callback_data="pages"), InlineKeyboardButton(text=f"1/{math.ceil(int(total_results)/10)}",callback_data="pages"), InlineKeyboardButton(text="𝐍𝐄𝐗𝐓 ➪",callback_data=f"next_{req}_{key}_{offset}")]
                 )
+    
             else:
                 btn.append(
                     [InlineKeyboardButton("𝐏𝐀𝐆𝐄", callback_data="pages"), InlineKeyboardButton(text=f"1/{math.ceil(int(total_results)/int(MAX_B_TN))}",callback_data="pages"), InlineKeyboardButton(text="𝐍𝐄𝐗𝐓 ➪",callback_data=f"next_{req}_{key}_{offset}")]
@@ -421,8 +428,10 @@ async def filter_yearss_cb_handler(client: Client, query: CallbackQuery):
     await query.answer()  
 
 # Episode
+
 @Client.on_callback_query(filters.regex(r"^episodes#"))
 async def episodes_cb_handler(client: Client, query: CallbackQuery):
+
     try:
         if int(query.from_user.id) not in [query.message.reply_to_message.from_user.id, 0]:
             return await query.answer(
@@ -547,6 +556,7 @@ async def filter_episodes_cb_handler(client: Client, query: CallbackQuery):
                 btn.append(
                     [InlineKeyboardButton("𝐏𝐀𝐆𝐄", callback_data="pages"), InlineKeyboardButton(text=f"1/{math.ceil(int(total_results)/10)}",callback_data="pages"), InlineKeyboardButton(text="𝐍𝐄𝐗𝐓 ➪",callback_data=f"next_{req}_{key}_{offset}")]
                 )
+    
             else:
                 btn.append(
                     [InlineKeyboardButton("𝐏𝐀𝐆𝐄", callback_data="pages"), InlineKeyboardButton(text=f"1/{math.ceil(int(total_results)/int(MAX_B_TN))}",callback_data="pages"), InlineKeyboardButton(text="𝐍𝐄𝐗𝐓 ➪",callback_data=f"next_{req}_{key}_{offset}")]
@@ -582,10 +592,14 @@ async def filter_episodes_cb_handler(client: Client, query: CallbackQuery):
         except MessageNotModified:
             pass
     await query.answer()
+    
 
-# Languages
+
+#languages
+
 @Client.on_callback_query(filters.regex(r"^languages#"))
 async def languages_cb_handler(client: Client, query: CallbackQuery):
+
     try:
         if int(query.from_user.id) not in [query.message.reply_to_message.from_user.id, 0]:
             return await query.answer(
@@ -710,6 +724,7 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
                 btn.append(
                     [InlineKeyboardButton("𝐏𝐀𝐆𝐄", callback_data="pages"), InlineKeyboardButton(text=f"1/{math.ceil(int(total_results)/10)}",callback_data="pages"), InlineKeyboardButton(text="𝐍𝐄𝐗𝐓 ➪",callback_data=f"next_{req}_{key}_{offset}")]
                 )
+    
             else:
                 btn.append(
                     [InlineKeyboardButton("𝐏𝐀𝐆𝐄", callback_data="pages"), InlineKeyboardButton(text=f"1/{math.ceil(int(total_results)/int(MAX_B_TN))}",callback_data="pages"), InlineKeyboardButton(text="𝐍𝐄𝐗𝐓 ➪",callback_data=f"next_{req}_{key}_{offset}")]
@@ -745,9 +760,12 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
         except MessageNotModified:
             pass
     await query.answer()
-
+    
+    
+    
 @Client.on_callback_query(filters.regex(r"^seasons#"))
 async def seasons_cb_handler(client: Client, query: CallbackQuery):
+
     try:
         if int(query.from_user.id) not in [query.message.reply_to_message.from_user.id, 0]:
             return await query.answer(
@@ -919,6 +937,7 @@ async def filter_seasons_cb_handler(client: Client, query: CallbackQuery):
 
 @Client.on_callback_query(filters.regex(r"^qualities#"))
 async def qualities_cb_handler(client: Client, query: CallbackQuery):
+
     try:
         if int(query.from_user.id) not in [query.message.reply_to_message.from_user.id, 0]:
             return await query.answer(
@@ -960,6 +979,7 @@ async def qualities_cb_handler(client: Client, query: CallbackQuery):
 
     await query.edit_message_reply_markup(InlineKeyboardMarkup(btn))
     
+
 @Client.on_callback_query(filters.regex(r"^fl#"))
 async def filter_qualities_cb_handler(client: Client, query: CallbackQuery):
     _, qual, key = query.data.split("#")
@@ -984,11 +1004,13 @@ async def filter_qualities_cb_handler(client: Client, query: CallbackQuery):
             )
     except:
         pass
+    searchagain = search
     if lang != "homepage":
         search = f"{search} {qual}" 
     BUTTONS[key] = search
 
     files, offset, total_results = await get_search_results(chat_id, search, offset=0, filter=True)
+    # files = [file for file in files if re.search(lang, file["file_name"], re.IGNORECASE)]
     if not files:
         await query.answer("🚫 𝗡𝗼 𝗙𝗶𝗹𝗲 𝗪𝗲𝗿𝗲 𝗙𝗼𝘂𝗻𝗱 🚫", show_alert=1)
         return
@@ -1012,7 +1034,7 @@ async def filter_qualities_cb_handler(client: Client, query: CallbackQuery):
             ]
         )
         btn.insert(0, [
-            InlineKeyboardButton("𝐒𝐞𝐧𝐝 𝐀𝐥ล", callback_data=f"sendfiles#{key}"),
+            InlineKeyboardButton("𝐒𝐞𝐧𝐝 𝐀𝐥𝐥", callback_data=f"sendfiles#{key}"),
             InlineKeyboardButton("ʟᴀɴɢᴜᴀɢᴇs", callback_data=f"languages#{key}"),
             InlineKeyboardButton("ʏᴇᴀʀs", callback_data=f"years#{key}")
         ])
@@ -1037,6 +1059,7 @@ async def filter_qualities_cb_handler(client: Client, query: CallbackQuery):
                 btn.append(
                     [InlineKeyboardButton("ᴘᴀɢᴇ", callback_data="pages"), InlineKeyboardButton(text=f"1/{math.ceil(int(total_results)/10)}",callback_data="pages"), InlineKeyboardButton(text="ɴᴇxᴛ ⇛",callback_data=f"next_{req}_{key}_{offset}")]
                 )
+    
             else:
                 btn.append(
                     [InlineKeyboardButton("ᴘᴀɢᴇ", callback_data="pages"), InlineKeyboardButton(text=f"1/{math.ceil(int(total_results)/int(MAX_B_TN))}",callback_data="pages"), InlineKeyboardButton(text="ɴᴇxᴛ ⇛",callback_data=f"next_{req}_{key}_{offset}")]
@@ -1169,6 +1192,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         await query.answer()
 
         group_id = query.data.split(":")[1]
+
         act = query.data.split(":")[2]
         hr = await client.get_chat(int(group_id))
         title = hr.title
@@ -1195,10 +1219,15 @@ async def cb_handler(client: Client, query: CallbackQuery):
         return await query.answer(MSG_ALRT)
     elif "connectcb" in query.data:
         await query.answer()
+
         group_id = query.data.split(":")[1]
+
         hr = await client.get_chat(int(group_id))
+
         title = hr.title
+
         user_id = query.from_user.id
+
         mkact = await make_active(str(user_id), str(group_id))
 
         if mkact:
@@ -1211,10 +1240,14 @@ async def cb_handler(client: Client, query: CallbackQuery):
         return await query.answer(MSG_ALRT)
     elif "disconnect" in query.data:
         await query.answer()
+
         group_id = query.data.split(":")[1]
+
         hr = await client.get_chat(int(group_id))
+
         title = hr.title
         user_id = query.from_user.id
+
         mkinact = await make_inactive(str(user_id))
 
         if mkinact:
@@ -1230,8 +1263,10 @@ async def cb_handler(client: Client, query: CallbackQuery):
         return await query.answer(MSG_ALRT)
     elif "deletecb" in query.data:
         await query.answer()
+
         user_id = query.from_user.id
         group_id = query.data.split(":")[1]
+
         delcon = await delete_connection(str(user_id), str(group_id))
 
         if delcon:
@@ -1246,7 +1281,9 @@ async def cb_handler(client: Client, query: CallbackQuery):
         return await query.answer(MSG_ALRT)
     elif query.data == "backcb":
         await query.answer()
+
         userid = query.from_user.id
+
         groupids = await all_connections(str(userid))
         if groupids is None:
             await query.message.edit_text(
@@ -1336,6 +1373,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
                     return
                 else:
                     await query.answer(f"Hᴇʏ {query.from_user.first_name}, Tʜɪs Is Nᴏᴛ Yᴏᴜʀ Mᴏᴠɪᴇ Rᴇǫᴜᴇsᴛ. Rᴇǫᴜᴇsᴛ Yᴏᴜʀ's !", show_alert=True)
+                    
             else:
                 if clicked == typed:
                     await query.answer(url=f"https://telegram.me/{temp.U_NAME}?start={ident}_{file_id}")
@@ -1362,6 +1400,9 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 return 
             else:
                 await query.answer(url=f"https://telegram.me/{temp.U_NAME}?start={pre}_{key}")
+                
+            
+                
         except UserIsBlocked:
             await query.answer('Uɴʙʟᴏᴄᴋ ᴛʜᴇ ʙᴏᴛ ᴍᴀʜɴ !', show_alert=True)
         except PeerIdInvalid:
@@ -1414,8 +1455,8 @@ async def cb_handler(client: Client, query: CallbackQuery):
         await query.answer(url=f"https://telegram.me/{temp.U_NAME}?start=file_{file_id}")
     
     elif query.data.startswith("checksub"):
-        if (AUTH_CHANNEL or REQ_CHANNEL) and not await is_subscribed(client, query):
-            await query.answer("Jᴏɪɴ ᴀʟʟ Bᴀᴄᴋ-ᴜᴘ ᴄʜᴀɴɴᴇʟs ᴍᴀʜɴ! 😒", show_alert=True)
+        if AUTH_CHANNEL and not await is_subscribed(client, query):
+            await query.answer("Jᴏɪɴ ᴏᴜʀ Bᴀᴄᴋ-ᴜᴘ ᴄʜᴀɴɴᴇʟ ᴍᴀʜɴ! 😒", show_alert=True)
             return
         ident, kk, file_id = query.data.split("#")
         await query.answer(url=f"https://t.me/{temp.U_NAME}?start={kk}_{file_id}")
@@ -1426,6 +1467,9 @@ async def cb_handler(client: Client, query: CallbackQuery):
     elif query.data.startswith("send_fsall"):
         temp_var, ident, key, offset = query.data.split("#")
         search = BUTTON0.get(key)
+     #   if not search:
+      #      await query.answer(script.OLD_ALRT_TXT.format(query.from_user.first_name),show_alert=True)
+      #      return
         files, n_offset, total = await get_search_results(query.message.chat.id, search, offset=int(offset), filter=True)
         await send_all(client, query.from_user.id, files, ident, query.message.chat.id, query.from_user.first_name, query)
         search = BUTTONS1.get(key)
@@ -1439,12 +1483,16 @@ async def cb_handler(client: Client, query: CallbackQuery):
     elif query.data.startswith("send_fall"):
         temp_var, ident, key, offset = query.data.split("#")
         search = FRESH.get(key)
+     #   if not search:
+       #     await query.answer(script.OLD_ALRT_TXT.format(query.from_user.first_name),show_alert=True)
+      #      return
         files, n_offset, total = await get_search_results(query.message.chat.id, search, offset=int(offset), filter=True)
         await send_all(client, query.from_user.id, files, ident, query.message.chat.id, query.from_user.first_name, query)
         await query.answer(f"Hey {query.from_user.first_name}, All files on this page has been sent successfully to your PM !", show_alert=True)
         
     elif query.data.startswith("killfilesdq"):
         ident, keyword = query.data.split("#")
+        #await query.message.edit_text(f"<b>Fetching Files for your query {keyword} on DB... Please wait...</b>")
         files, total = await get_bad_files(keyword)
         await query.message.edit_text("<b>File deletion process will start in 5 seconds !</b>")
         await asyncio.sleep(5)
@@ -1640,6 +1688,9 @@ async def cb_handler(client: Client, query: CallbackQuery):
              ],[
                 InlineKeyboardButton("Aʟʀᴇᴀᴅʏ Aᴠᴀɪʟᴀʙʟᴇ", callback_data=f"already_available#{from_user}")
               ]]
+        btn2 = [[
+                 InlineKeyboardButton("Vɪᴇᴡ Sᴛᴀᴛᴜs", url=f"{query.message.link}")
+               ]]
         if query.from_user.id in ADMINS:
             user = await client.get_users(from_user)
             reply_markup = InlineKeyboardMarkup(btn)
@@ -1839,6 +1890,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             InlineKeyboardButton('⟸ Bᴀᴄᴋ', callback_data='help'),
             InlineKeyboardButton('Gʟᴏʙᴀʟ Fɪʟᴛᴇʀs', callback_data='global_filters')
         ]]
+        
         reply_markup = InlineKeyboardMarkup(buttons)
         await client.edit_message_media(
             query.message.chat.id, 
@@ -2013,6 +2065,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             reply_markup=reply_markup,
             parse_mode=enums.ParseMode.HTML
         )
+    
     elif query.data == "store_file":
         buttons = [[
             InlineKeyboardButton('⟸ Bᴀᴄᴋ', callback_data='help')
@@ -2028,6 +2081,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             reply_markup=reply_markup,
             parse_mode=enums.ParseMode.HTML
         )
+
     elif query.data == "r_txt":
         buttons = [[
             InlineKeyboardButton('⟸ Bᴀᴄᴋ', callback_data='help')
@@ -2043,6 +2097,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             reply_markup=reply_markup,
             parse_mode=enums.ParseMode.HTML
         )
+
     elif query.data == "s_txt":
         buttons = [[
             InlineKeyboardButton('⟸ Bᴀᴄᴋ', callback_data='help')
@@ -2058,6 +2113,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             reply_markup=reply_markup,
             parse_mode=enums.ParseMode.HTML
         )
+    
     elif query.data == "extra":
         buttons = [[
             InlineKeyboardButton('⟸ Bᴀᴄᴋ', callback_data='admin')
@@ -2182,9 +2238,15 @@ async def cb_handler(client: Client, query: CallbackQuery):
             InlineKeyboardButton('⇍ ʙᴀᴄᴋ ⇏', callback_data='help')
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
-        await query.message.edit_text("● ◌ ◌")
-        await query.message.edit_text("● ● ◌")
-        await query.message.edit_text("● ● ●")
+        await query.message.edit_text(
+            text="● ◌ ◌"
+        )
+        await query.message.edit_text(
+            text="● ● ◌"
+        )
+        await query.message.edit_text(
+            text="● ● ●"
+        )
         reply_markup = InlineKeyboardMarkup(buttons)
         await client.edit_message_media(
             query.message.chat.id, 
@@ -2233,9 +2295,15 @@ async def cb_handler(client: Client, query: CallbackQuery):
             InlineKeyboardButton('⇍ ʙᴀᴄᴋ ⇏', callback_data='help')
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
-        await query.message.edit_text("● ◌ ◌")
-        await query.message.edit_text("● ● ◌")
-        await query.message.edit_text("● ● ●")
+        await query.message.edit_text(
+            text="● ◌ ◌"
+        )
+        await query.message.edit_text(
+            text="● ● ◌"
+        )
+        await query.message.edit_text(
+            text="● ● ●"
+        )
         reply_markup = InlineKeyboardMarkup(buttons)
         await client.edit_message_media(
             query.message.chat.id, 
@@ -2676,6 +2744,7 @@ async def auto_filter(client, name, msg, reply_msg, ai_search, spoll=False):
                 await message.delete()
     else:
         fuk = await reply_msg.edit_text(text=cap, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
+        
         try:
             if settings['auto_delete']:
                 await asyncio.sleep(300)
@@ -2695,7 +2764,7 @@ async def advantage_spell_chok(client, name, msg, reply_msg, vj_search):
     settings = await get_settings(msg.chat.id)
     query = re.sub(
         r"\b(pl(i|e)*?(s|z+|ease|se|ese|(e+)s(e)?)|((send|snd|giv(e)?|gib)(\sme)?)|movie(s)?|new|latest|br((o|u)h?)*|^h(e|a)?(l)*(o)*|mal(ayalam)?|t(h)?amil|file|that|find|und(o)*|kit(t(i|y)?)?o(w)?|thar(u)?(o)*w?|kittum(o)*|aya(k)*(um(o)*)?|full\smovie|any(one)|with\ssubtitle(s)?)",
-        "", msg.text, flags=re.IGNORECASE)
+        "", msg.text, flags=re.IGNORECASE)  # plis contribute some common words
     query = query.strip() + " movie"
     try:
         movies = await get_poster(mv_rqst, bulk=True)
@@ -2825,6 +2894,7 @@ async def manual_filters(client, message, text=False):
                                         await save_group_settings(grpid, 'auto_delete', True)
                                         settings = await get_settings(message.chat.id)
                                         if settings['auto_delete']:
+                                            await asyncio.sleep(600)
                                             await joelkb.delete()
                             except KeyError:
                                 grpid = await active_connection(str(message.from_user.id))
@@ -2834,6 +2904,7 @@ async def manual_filters(client, message, text=False):
                                     ai_search = True
                                     reply_msg = await message.reply_text(f"<b><i>Searching For {message.text} 🔍</i></b>")
                                     await auto_filter(client, message.text, message, reply_msg, ai_search)
+
                         else:
                             button = eval(btn)
                             joelkb = await client.send_message(
@@ -2868,6 +2939,7 @@ async def manual_filters(client, message, text=False):
                                         await save_group_settings(grpid, 'auto_delete', True)
                                         settings = await get_settings(message.chat.id)
                                         if settings['auto_delete']:
+                                            await asyncio.sleep(600)
                                             await joelkb.delete()
                             except KeyError:
                                 grpid = await active_connection(str(message.from_user.id))
@@ -2909,6 +2981,7 @@ async def manual_filters(client, message, text=False):
                                     await save_group_settings(grpid, 'auto_delete', True)
                                     settings = await get_settings(message.chat.id)
                                     if settings['auto_delete']:
+                                        await asyncio.sleep(600)
                                         await joelkb.delete()
                         except KeyError:
                             grpid = await active_connection(str(message.from_user.id))
@@ -2950,6 +3023,7 @@ async def manual_filters(client, message, text=False):
                                     await save_group_settings(grpid, 'auto_delete', True)
                                     settings = await get_settings(message.chat.id)
                                     if settings['auto_delete']:
+                                        await asyncio.sleep(600)
                                         await joelkb.delete()
                         except KeyError:
                             grpid = await active_connection(str(message.from_user.id))
@@ -2959,6 +3033,7 @@ async def manual_filters(client, message, text=False):
                                 ai_search = True
                                 reply_msg = await message.reply_text(f"<b><i>Searching For {message.text} 🔍</i></b>")
                                 await auto_filter(client, message.text, message, reply_msg, ai_search)
+
                 except Exception as e:
                     logger.exception(e)
                 break
@@ -3016,10 +3091,11 @@ async def global_filters(client, message, text=False):
                                             await save_group_settings(grpid, 'auto_delete', True)
                                             settings = await get_settings(message.chat.id)
                                             if settings['auto_delete']:
+                                                await asyncio.sleep(600)
                                                 await joelkb.delete()
                                 except KeyError:
                                     grpid = await active_connection(str(message.from_user.id))
-                                    await save_group_settings(grpid, 'auto_delete', True)
+                                    await save_group_settings(grpid, 'auto_ffilter', True)
                                     settings = await get_settings(message.chat.id)
                                     if settings['auto_ffilter']:
                                         ai_search = True
@@ -3035,6 +3111,7 @@ async def global_filters(client, message, text=False):
                                     settings = await get_settings(message.chat.id)
                                     if settings['auto_delete']:
                                         await joelkb.delete()
+                            
                         else:
                             button = eval(btn)
                             joelkb = await client.send_message(
@@ -3071,10 +3148,11 @@ async def global_filters(client, message, text=False):
                                             await save_group_settings(grpid, 'auto_delete', True)
                                             settings = await get_settings(message.chat.id)
                                             if settings['auto_delete']:
+                                                await asyncio.sleep(600)
                                                 await joelkb.delete()
                                 except KeyError:
                                     grpid = await active_connection(str(message.from_user.id))
-                                    await save_group_settings(grpid, 'auto_delete', True)
+                                    await save_group_settings(grpid, 'auto_ffilter', True)
                                     settings = await get_settings(message.chat.id)
                                     if settings['auto_ffilter']:
                                         ai_search = True
@@ -3125,6 +3203,7 @@ async def global_filters(client, message, text=False):
                                         await save_group_settings(grpid, 'auto_delete', True)
                                         settings = await get_settings(message.chat.id)
                                         if settings['auto_delete']:
+                                            await asyncio.sleep(600)
                                             await joelkb.delete()
                             except KeyError:
                                 grpid = await active_connection(str(message.from_user.id))
@@ -3180,6 +3259,7 @@ async def global_filters(client, message, text=False):
                                         await save_group_settings(grpid, 'auto_delete', True)
                                         settings = await get_settings(message.chat.id)
                                         if settings['auto_delete']:
+                                            await asyncio.sleep(600)
                                             await joelkb.delete()
                             except KeyError:
                                 grpid = await active_connection(str(message.from_user.id))
@@ -3195,10 +3275,12 @@ async def global_filters(client, message, text=False):
                                     await joelkb.delete()
                             except KeyError:
                                 grpid = await active_connection(str(message.from_user.id))
-                                brain = await save_group_settings(grpid, 'auto_delete', True)
+                                await save_group_settings(grpid, 'auto_delete', True)
                                 settings = await get_settings(message.chat.id)
                                 if settings['auto_delete']:
                                     await joelkb.delete()
+
+                                
                 except Exception as e:
                     logger.exception(e)
                 break
