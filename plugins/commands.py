@@ -1405,5 +1405,16 @@ async def purge_requests(client, message):
             disable_web_page_preview=True
         )
 
+@Client.on_chat_join_request()
+async def join_reqs_catcher(client, request):
+    if not join_db().isActive():
+        return
+    await join_db().add_user(
+        user_id=request.from_user.id, 
+        first_name=request.from_user.first_name, 
+        username=request.from_user.username, 
+        date=request.date
+    )
+
 
 
