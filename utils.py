@@ -69,13 +69,13 @@ async def is_subscribed(bot, query):
     if REQ_CHANNEL and join_db().isActive():
         try:
             user = await join_db().get_user(user_id)
-            # If not in database, fallback to checking if they are already inside the channel
             if not (user and user["user_id"] == user_id):
+                # Fallback if not in database yet: check if they somehow joined directly
                 user_data = await bot.get_chat_member(REQ_CHANNEL, user_id)
                 if user_data.status == enums.ChatMemberStatus.BANNED:
                     return False
         except UserNotParticipant:
-            return False # Fails if they haven't requested or joined
+            return False # Fails if they haven't sent a request or joined
         except Exception as e:
             logger.exception(e)
             return False
