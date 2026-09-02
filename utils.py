@@ -65,17 +65,20 @@ async def pub_is_subscribed(bot, query, channel):
 async def is_subscribed(bot, query):
     user_id = query.from_user.id
     
-    # 1. Check Request-to-Join Channel (Fast DB Lookup)
+    # 1. Check Request-to-Join Channel (Fast DB Lookup for Pending Requests)
     if REQ_CHANNEL and join_db().isActive():
         try:
             user = await join_db().get_user(user_id)
-            if not (user and user["user_id"] == user_id):
-                # Fallback if not in database yet: check if they somehow joined directly
+            if user:
+                # User found in DB (meaning their join request was caught!)
+                pass
+            else:
+                # Fallback: check if they are already an active member
                 user_data = await bot.get_chat_member(REQ_CHANNEL, user_id)
                 if user_data.status == enums.ChatMemberStatus.BANNED:
                     return False
         except UserNotParticipant:
-            return False # Fails if they haven't sent a request or joined
+            return False # Fails if they haven't requested or joined at all
         except Exception as e:
             logger.exception(e)
             return False
@@ -87,7 +90,7 @@ async def is_subscribed(bot, query):
             if user_data.status == enums.ChatMemberStatus.BANNED:
                 return False
         except UserNotParticipant:
-            return False # Fails if they haven't joined
+            return False # Fails if they haven't joined the direct channel
         except Exception as e:
             logger.exception(e)
             return False
