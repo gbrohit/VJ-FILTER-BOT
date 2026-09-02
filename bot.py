@@ -50,8 +50,10 @@ async def start():
             spec.loader.exec_module(load)
             sys.modules["plugins." + plugin_name] = load
             print("Tech VJ Imported => " + plugin_name)
-    if ON_HEROKU:
-        asyncio.create_task(ping_server())
+            
+    # Keep Alive Function: Heroku restriction removed so it runs natively on Koyeb
+    asyncio.create_task(ping_server())
+    
     b_users, b_chats = await db.get_banned()
     temp.BANNED_USERS = b_users
     temp.BANNED_CHATS = b_chats
@@ -84,6 +86,8 @@ async def start():
         print("Restarting All Clone Bots.......")
         await restart_bots()
         print("Restarted All Clone Bots.")
+        
+    # Start Koyeb-compatible Web Server
     app = web.AppRunner(await web_server())
     await app.setup()
     bind_address = "0.0.0.0"
@@ -96,5 +100,3 @@ if __name__ == '__main__':
         loop.run_until_complete(start())
     except KeyboardInterrupt:
         logging.info('Service Stopped Bye 👋')
-
-
