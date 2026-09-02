@@ -116,6 +116,7 @@ VERIFY = bool(environ.get('VERIFY', True))
 VERIFY_SHORTLINK_URL = environ.get('VERIFY_SHORTLINK_URL', 'nowshort.com')
 VERIFY_SHORTLINK_API = environ.get('VERIFY_SHORTLINK_API', '86668b40e4986c631ca9a2a56a0d85c1d35e9c63')
 VERIFY_TUTORIAL = environ.get('VERIFY_TUTORIAL', '')
+VERIFY_EXPIRE = int(environ.get('VERIFY_EXPIRE', 86400)) # Time in seconds (86400 = 24 hours, 43200 = 12 hours)
 
 # If You Fill Second Shortner Then Bot Attach Both First And Second Shortner And Use It For Verify.
 VERIFY_SECOND_SHORTNER = bool(environ.get('VERIFY_SECOND_SHORTNER', False))
