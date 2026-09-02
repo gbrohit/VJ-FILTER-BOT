@@ -1385,36 +1385,5 @@ async def check_plans_cmd(client, message):
         await asyncio.sleep(2)
         await m.delete()
 
-@Client.on_message(filters.command("totalrequests") & filters.private & filters.user(ADMINS))
-async def total_requests(client, message):
-    if join_db().isActive():
-        total = await join_db().get_all_users_count()
-        await message.reply_text(
-            text=f"Total Requests: {total}",
-            parse_mode=enums.ParseMode.MARKDOWN,
-            disable_web_page_preview=True
-        )
-
-@Client.on_message(filters.command("purgerequests") & filters.private & filters.user(ADMINS))
-async def purge_requests(client, message):   
-    if join_db().isActive():
-        await join_db().delete_all_users()
-        await message.reply_text(
-            text="Purged All Requests.",
-            parse_mode=enums.ParseMode.MARKDOWN,
-            disable_web_page_preview=True
-        )
-
-@Client.on_chat_join_request()
-async def join_reqs_catcher(client, request):
-    if not join_db().isActive():
-        return
-    await join_db().add_user(
-        user_id=request.from_user.id, 
-        first_name=request.from_user.first_name, 
-        username=request.from_user.username, 
-        date=request.date
-    )
-
 
 
