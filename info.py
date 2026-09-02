@@ -40,10 +40,6 @@ TRY_AGAIN_BTN = bool(environ.get('TRY_AGAIN_BTN', False)) # Set True Or False (T
 auth_channel = environ.get('AUTH_CHANNEL', '') # give your force subscribe channel id here else leave it blank
 AUTH_CHANNEL = int(auth_channel) if auth_channel and id_pattern.search(auth_channel) else None
 
-# This Is Request-to-Join Channel (Pending Requests)
-req_channel = environ.get('REQ_CHANNEL', '')
-REQ_CHANNEL = int(req_channel) if req_channel and id_pattern.search(req_channel) else None
-
 # This Channel Is For When User Request Any File Name With command or hashtag like - /request or #request
 reqst_channel = environ.get('REQST_CHANNEL', '')
 REQST_CHANNEL = int(reqst_channel) if reqst_channel and id_pattern.search(reqst_channel) else None
