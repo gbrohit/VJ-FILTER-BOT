@@ -63,39 +63,35 @@ async def pub_is_subscribed(bot, query, channel):
     return btn
 
 async def is_subscribed(bot, query):
-    user_id = query.from_user.id
-    
-    # 1. Check Request-to-Join Channel (Fast DB Lookup for Pending Requests)
-    if REQ_CHANNEL and join_db().isActive():
+    if REQUEST_TO_JOIN_MODE == True and join_db().isActive():
         try:
-            user = await join_db().get_user(user_id)
-            if user:
-                # User found in DB (meaning their join request was caught!)
-                pass
+            user = await join_db().get_user(query.from_user.id)
+            if user and user["user_id"] == query.from_user.id:
+                return True
             else:
-                # Fallback: check if they are already an active member
-                user_data = await bot.get_chat_member(REQ_CHANNEL, user_id)
-                if user_data.status == enums.ChatMemberStatus.BANNED:
-                    return False
-        except UserNotParticipant:
-            return False # Fails if they haven't requested or joined at all
+                try:
+                    user_data = await bot.get_chat_member(AUTH_CHANNEL, query.from_user.id)
+                except UserNotParticipant:
+                    pass
+                except Exception as e:
+                    logger.exception(e)
+                else:
+                    if user_data.status != enums.ChatMemberStatus.BANNED:
+                        return True
         except Exception as e:
             logger.exception(e)
             return False
-            
-    # 2. Check Direct Join Channel (API Lookup)
-    if AUTH_CHANNEL:
+    else:
         try:
-            user_data = await bot.get_chat_member(AUTH_CHANNEL, user_id)
-            if user_data.status == enums.ChatMemberStatus.BANNED:
-                return False
+            user = await bot.get_chat_member(AUTH_CHANNEL, query.from_user.id)
         except UserNotParticipant:
-            return False # Fails if they haven't joined the direct channel
+            pass
         except Exception as e:
             logger.exception(e)
-            return False
-            
-    return True
+        else:
+            if user.status != enums.ChatMemberStatus.BANNED:
+                return True
+        return False
 
 async def get_poster(query, bulk=False, id=False, file=None):
     if not id:
