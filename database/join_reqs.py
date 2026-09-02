@@ -3,7 +3,7 @@
 # Ask Doubt on telegram @KingVJ01
 
 import motor.motor_asyncio
-from info import REQ_CHANNEL, OTHER_DB_URI, DATABASE_URI
+from info import AUTH_CHANNEL, OTHER_DB_URI, DATABASE_URI
 
 class JoinReqs:
     def __init__(self):
@@ -11,7 +11,7 @@ class JoinReqs:
         if uri:
             self.client = motor.motor_asyncio.AsyncIOMotorClient(uri)
             self.db = self.client["JoinReqs"]
-            self.col = self.db[str(REQ_CHANNEL)]
+            self.col = self.db[str(AUTH_CHANNEL)]
         else:
             self.client = None
 
