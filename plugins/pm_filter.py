@@ -1457,59 +1457,9 @@ async def cb_handler(client: Client, query: CallbackQuery):
         await query.answer(url=f"https://telegram.me/{temp.U_NAME}?start=file_{file_id}")
     
     elif query.data.startswith("checksub"):
-        if (AUTH_CHANNEL or REQ_CHANNEL) and not await is_subscribed(client, query):
-            btn = []
-            
-            # Independent Auth Check
-            is_in_auth = False
-            if AUTH_CHANNEL:
-                try:
-                    user_data = await client.get_chat_member(AUTH_CHANNEL, query.from_user.id)
-                    if user_data.status in [enums.ChatMemberStatus.OWNER, enums.ChatMemberStatus.ADMINISTRATOR, enums.ChatMemberStatus.MEMBER]:
-                        is_in_auth = True
-                except:
-                    pass
-            else:
-                is_in_auth = True
-                
-            # Independent Req Check
-            is_in_req = False
-            if REQ_CHANNEL and join_db().isActive():
-                try:
-                    user = await join_db().get_user(query.from_user.id)
-                    if user and user["user_id"] == query.from_user.id:
-                        is_in_req = True
-                    else:
-                        user_data = await client.get_chat_member(REQ_CHANNEL, query.from_user.id)
-                        if user_data.status in [enums.ChatMemberStatus.OWNER, enums.ChatMemberStatus.ADMINISTRATOR, enums.ChatMemberStatus.MEMBER]:
-                            is_in_req = True
-                except:
-                    pass
-            else:
-                is_in_req = True
-                
-            # Build missing buttons only
-            if AUTH_CHANNEL and not is_in_auth:
-                try:
-                    auth_link = await client.create_chat_invite_link(int(AUTH_CHANNEL))
-                    btn.append([InlineKeyboardButton("📢 ᴊᴏɪɴ ᴄʜᴀɴɴᴇʟ", url=auth_link.invite_link)])
-                except Exception as e:
-                    pass
-            if REQ_CHANNEL and not is_in_req:
-                try:
-                    req_link = await client.create_chat_invite_link(chat_id=int(REQ_CHANNEL), creates_join_request=True)
-                    btn.append([InlineKeyboardButton("📩 ʀᴇǫᴜᴇsᴛ ᴛᴏ ᴊᴏɪɴ", url=req_link.invite_link)])
-                except Exception as e:
-                    pass
-            
-            ident, kk, file_id = query.data.split("#")
-            btn.append([InlineKeyboardButton("↻ ᴛʀʏ ᴀɢᴀɪɴ", callback_data=f"checksub#{kk}#{file_id}")])
-            
-            # Update the existing message to hide completed buttons
-            await query.message.edit_reply_markup(reply_markup=InlineKeyboardMarkup(btn))
-            await query.answer("Yᴏᴜ sᴛɪʟʟ ɴᴇᴇᴅ ᴛᴏ ᴊᴏɪɴ/ʀᴇǫᴜᴇsᴛ ᴛʜᴇ ʀᴇᴍᴀɪɴɪɴɢ ᴄʜᴀɴɴᴇʟs! 😒", show_alert=True)
+        if AUTH_CHANNEL and not await is_subscribed(client, query):
+            await query.answer("Jᴏɪɴ ᴏᴜʀ Bᴀᴄᴋ-ᴜᴘ ᴄʜᴀɴɴᴇʟ ᴍᴀʜɴ! 😒", show_alert=True)
             return
-            
         ident, kk, file_id = query.data.split("#")
         await query.answer(url=f"https://t.me/{temp.U_NAME}?start={kk}_{file_id}")
     
