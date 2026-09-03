@@ -18,7 +18,6 @@ from shortzy import Shortzy
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
-join_db = JoinReqs
 BTN_URL_REGEX = re.compile(r"(\[([^\[]+?)\]\((buttonurl|buttonalert):(?:/{0,2})(.+?)(:same)?\))")
 
 imdb = None
@@ -60,37 +59,6 @@ async def pub_is_subscribed(bot, query, channel):
         except Exception as e:
             pass
     return btn
-
-async def is_subscribed(bot, query):
-    if REQUEST_TO_JOIN_MODE == True and join_db().isActive():
-        try:
-            user = await join_db().get_user(query.from_user.id)
-            if user and user["user_id"] == query.from_user.id:
-                return True
-            else:
-                try:
-                    user_data = await bot.get_chat_member(AUTH_CHANNEL, query.from_user.id)
-                except UserNotParticipant:
-                    pass
-                except Exception as e:
-                    logger.exception(e)
-                else:
-                    if user_data.status != enums.ChatMemberStatus.BANNED:
-                        return True
-        except Exception as e:
-            logger.exception(e)
-            return False
-    else:
-        try:
-            user = await bot.get_chat_member(AUTH_CHANNEL, query.from_user.id)
-        except UserNotParticipant:
-            pass
-        except Exception as e:
-            logger.exception(e)
-        else:
-            if user.status != enums.ChatMemberStatus.BANNED:
-                return True
-        return False
 
 async def get_poster(query, bulk=False, id=False, file=None):
     if not id:
