@@ -1,15 +1,15 @@
-import datetime
 import logging
-import sys
 import os
 import asyncio
-from pyrogram import Client, __version__
-from pyrogram.raw.all import layer
+from pyrogram import Client, __version__, enums
 from database.users_chats_db import db
 from info import *
 from utils import temp
 from aiohttp import web
-from server import web_server, ping_server
+
+# Lightweight health server to satisfy PaaS port binding (Koyeb/Render)
+async def health_check(request):
+    return web.Response(text="Bot is running smoothly!", status=200)
 
 class Bot(Client):
     def __init__(self):
@@ -24,15 +24,17 @@ class Bot(Client):
         )
 
     async def start(self):
-        # Start the web server
-        app = web.AppRunner(await web_server())
-        await app.setup()
+        # Start the minimal web server
+        app = web.Application()
+        app.router.add_get('/', health_check)
+        app.router.add_get('/health', health_check)
+        
+        runner = web.AppRunner(app)
+        await runner.setup()
         bind_address = "0.0.0.0"
         port = int(os.environ.get("PORT", 8080))
-        await web.TCPSite(app, bind_address, port).start()
-        
-        # Start the continuous ping loop
-        asyncio.create_task(ping_server())
+        await web.TCPSite(runner, bind_address, port).start()
+        logging.info(f"Health server started on port {port}")
 
         await super().start()
         self.set_parse_mode(enums.ParseMode.HTML)
