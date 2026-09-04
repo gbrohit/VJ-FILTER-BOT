@@ -287,6 +287,7 @@ async def start(client, message):
                     f_caption = f_caption
             if f_caption is None:
                 f_caption = f"{clean_name}"
+            reply_markup = None
             if not await db.has_premium_access(message.from_user.id):
                 if not await check_verification(client, message.from_user.id) and VERIFY == True:
                     btn = [[
@@ -303,7 +304,6 @@ async def start(client, message):
                         reply_markup=InlineKeyboardMarkup(btn)
                     )
                     return
-                reply_markup = None
             msg = await client.send_cached_media(
                 chat_id=message.from_user.id,
                 file_id=file_id,
