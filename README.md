@@ -1,30 +1,3 @@
-## Main Feature 
-<b>
-  
-- [x] Clone Feature & On / Off
-- [x] Multiple Database Support & On / Off
-- [x] Premium Plan Feature 
-- [x] Refer To Get Premium
-- [x] Ai Spell Check 
-- [x] Custom Force Subscribe
-- [x] Rename Feature & On / Off
-- [x] Premium And Refer On / Off 
-- [x] Stream Feature On / Off 
-- [x] Url Shortner On / Off  
-- [x] Pm Search On / Off
-- [x] Request To Join Force Subscribe With Auto File Send 
-- [x] Custom Stream
-- [x] Stream Feature With Many Player Support 
-- [x] Language & Season & Quality & Episode & Year Choose Option
-- [x] Auto Approve & On / Off
-- [x] Custom Url Shortner Support
-- [x] Token Verification & On / Off
-- [x] Send All Button 
-- [x] Custom Tutorial Button
-- [x] Bot Pm File Auto Delete
-
-- Note : You Can Turn On Or Off Every Feature, Just Use Which Feature You Want By Turning It On.
-
 Join My <a href='https://telegram.me/vj_bots'>Update Channel</a> For More Update Regarding Repo.</b>
 
 ### How To Deploy : [Video Tutorial](https://youtu.be/3SJR7vH2kRo)
