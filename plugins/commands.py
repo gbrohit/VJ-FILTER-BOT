@@ -285,7 +285,7 @@ async def start(client, message):
                 except:
                     f_caption=f_caption
             if f_caption is None:
-                f_caption = f"@VJ_Bots {' '.join(filter(lambda x: not x.startswith('[') and not x.startswith('@'), files1['file_name'].split()))}"
+                f_caption = f"{' '.join(filter(lambda x: not x.startswith('[') and not x.startswith('@'), files1['file_name'].split()))}"
             if not await db.has_premium_access(message.from_user.id):
                 if not await check_verification(client, message.from_user.id) and VERIFY == True:
                     btn = [[
@@ -372,7 +372,7 @@ async def start(client, message):
             file = getattr(msg, filetype.value)
             title = file.file_name
             size=get_size(file.file_size)
-            f_caption = f"@VJ_Bots <code>{title}</code>"
+            f_caption = f"<code>{title}</code>"
             if CUSTOM_FILE_CAPTION:
                 try:
                     f_caption=CUSTOM_FILE_CAPTION.format(file_name= '' if title is None else title, file_size='' if size is None else size, file_caption='')
@@ -398,7 +398,7 @@ async def start(client, message):
         except:
             f_caption=f_caption
     if f_caption is None:
-        f_caption = f"@VJ_Bots {' '.join(filter(lambda x: not x.startswith('[') and not x.startswith('@'), files['file_name'].split()))}"
+        f_caption = f"{' '.join(filter(lambda x: not x.startswith('[') and not x.startswith('@'), files['file_name'].split()))}"
     if not await db.has_premium_access(message.from_user.id):
         if not await check_verification(client, message.from_user.id) and VERIFY == True:
             btn = [[
