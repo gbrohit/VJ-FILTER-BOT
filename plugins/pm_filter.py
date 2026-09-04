@@ -1305,7 +1305,8 @@ async def cb_handler(client: Client, query: CallbackQuery):
         if not files_:
             return await query.answer('Nᴏ sᴜᴄʜ ғɪʟᴇ ᴇxɪsᴛ.')
         files = files_
-        title = files["file_name"]
+        clean_name = ' '.join(re.sub(r'(?i)(\[.*?\]|www\.?|1tamilmv|movierulz|tamilblasters|tamilmv|@\w+|\.com|\.net|\.in|\bvet\b|\bpl\b)', '', files['file_name']).split())
+        title = clean_name
         size = get_size(files["file_size"])
         f_caption = files["caption"]
         settings = await get_settings(query.message.chat.id)
@@ -1318,7 +1319,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 logger.exception(e)
             f_caption = f_caption
         if f_caption is None:
-            f_caption = f"{files['file_name']}"
+            f_caption = f"{clean_name}"
 
         try:
             if settings['is_shortlink'] and not await db.has_premium_access(query.from_user.id):
@@ -1399,7 +1400,8 @@ async def cb_handler(client: Client, query: CallbackQuery):
         if not files_:
             return await query.answer('Nᴏ sᴜᴄʜ ғɪʟᴇ ᴇxɪsᴛ.')
         files = files_
-        title = files['file_name']
+        clean_name = ' '.join(re.sub(r'(?i)(\[.*?\]|www\.?|1tamilmv|movierulz|tamilblasters|tamilmv|@\w+|\.com|\.net|\.in|\bvet\b|\bpl\b)', '', files['file_name']).split())
+        title = clean_name
         size = get_size(files['file_size'])
         f_caption = files['caption']
         settings = await get_settings(query.message.chat.id)
@@ -1412,7 +1414,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 logger.exception(e)
             f_caption = f_caption
         if f_caption is None:
-            f_caption = f"{files['file_name']}"
+            f_caption = f"{clean_name}"
         await query.answer(url=f"https://telegram.me/{temp.U_NAME}?start=file_{file_id}")
     
     elif query.data.startswith("checksub"):
