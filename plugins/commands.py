@@ -594,8 +594,8 @@ async def settings(client, message):
         settings = await get_settings(grp_id)
     if 'is_shortlink' not in settings.keys():
         await save_group_settings(grp_id, 'is_shortlink', False)
-    else:
-        pass
+    if 'no_result_msg' not in settings.keys():
+        await save_group_settings(grp_id, 'no_result_msg', True)
 
     if settings is not None:
         buttons = [
