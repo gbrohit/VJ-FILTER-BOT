@@ -1538,6 +1538,12 @@ async def cb_handler(client: Client, query: CallbackQuery):
                                          callback_data=f'setgs#is_shortlink#{settings["is_shortlink"]}#{str(grp_id)}'),
                     InlineKeyboardButton('✔ Oɴ' if settings["is_shortlink"] else '✘ Oғғ',
                                          callback_data=f'setgs#is_shortlink#{settings["is_shortlink"]}#{str(grp_id)}')
+                ],
+                [
+                    InlineKeyboardButton('Nᴏ-Rᴇsᴜʟᴛ Msɢ',
+                                         callback_data=f'setgs#no_result_msg#{settings.get("no_result_msg", True)}#{str(grp_id)}'),
+                    InlineKeyboardButton('✔ Oɴ' if settings.get("no_result_msg", True) else '✘ Oғғ',
+                                         callback_data=f'setgs#no_result_msg#{settings.get("no_result_msg", True)}#{str(grp_id)}')
                 ]
             ]
             reply_markup = InlineKeyboardMarkup(buttons)
@@ -2079,6 +2085,12 @@ async def cb_handler(client: Client, query: CallbackQuery):
                                          callback_data=f'setgs#is_shortlink#{settings["is_shortlink"]}#{str(grp_id)}'),
                     InlineKeyboardButton('✔ Oɴ' if settings["is_shortlink"] else '✘ Oғғ',
                                          callback_data=f'setgs#is_shortlink#{settings["is_shortlink"]}#{str(grp_id)}')
+                ],
+                [
+                    InlineKeyboardButton('Nᴏ-Rᴇsᴜʟᴛ Msɢ',
+                                         callback_data=f'setgs#no_result_msg#{settings.get("no_result_msg", True)}#{str(grp_id)}'),
+                    InlineKeyboardButton('✔ Oɴ' if settings.get("no_result_msg", True) else '✘ Oғғ',
+                                         callback_data=f'setgs#no_result_msg#{settings.get("no_result_msg", True)}#{str(grp_id)}')
                 ]
             ]
             reply_markup = InlineKeyboardMarkup(buttons)
