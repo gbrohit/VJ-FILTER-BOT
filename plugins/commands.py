@@ -276,17 +276,17 @@ async def start(client, message):
         for file in files:
             file_id = file["file_id"]
             files1 = await get_file_details(file_id)
-            title = files1["file_name"]
-            size=get_size(files1["file_size"])
-            f_caption=files1["caption"]
+            clean_name = ' '.join(re.sub(r"(?i)(\[.*?\]|www\.?|1tamilmv|movierulz|tamilblasters|tamilmv|@\w+|\.com|\.net|\.in|\bvet\b|\bpl\b)", "", files1["file_name"]).split())
+            title = clean_name
+            size = get_size(files1["file_size"])
+            f_caption = files1["caption"]
             if CUSTOM_FILE_CAPTION:
                 try:
-                    f_caption=CUSTOM_FILE_CAPTION.format(file_name= '' if title is None else title, file_size='' if size is None else size, file_caption='' if f_caption is None else f_caption)
+                    f_caption = CUSTOM_FILE_CAPTION.format(file_name= '' if title is None else title, file_size='' if size is None else size, file_caption='' if f_caption is None else f_caption)
                 except:
-                    f_caption=f_caption
+                    f_caption = f_caption
             if f_caption is None:
-                clean_name = re.sub(r"(?i)(\[.*?\]|www\.?|1tamilmv|movierulz|tamilblasters|tamilmv|@\w+|\.com|\.net|\.in|\bvet\b|\bpl\b)", "", files1["file_name"])
-                f_caption = f"{' '.join(re.sub(r'(_|\-|\.|\+)', ' ', clean_name).split())}"
+                f_caption = f"{clean_name}"
             if not await db.has_premium_access(message.from_user.id):
                 if not await check_verification(client, message.from_user.id) and VERIFY == True:
                     btn = [[
