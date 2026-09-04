@@ -1,7 +1,3 @@
-# Don't Remove Credit @VJ_Bots
-# Subscribe YouTube Channel For Amazing Bot @Tech_VJ
-# Ask Doubt on telegram @KingVJ01
-
 import re, base64, json
 from struct import pack
 from pyrogram.file_id import FileId
@@ -58,13 +54,16 @@ async def save_file(media):
 
 def clean_file_name(file_name):
     """Clean and format the file name."""
-    file_name = re.sub(r"(_|\-|\.|\+)", " ", str(file_name)) 
-    unwanted_chars = ['[', ']', '(', ')', '{', '}']
+    # 1. Strip out release tags, websites, and Telegram usernames using Regex
+    file_name = re.sub(r"(?i)(\[.*?\]|\(.*?\)|\{.*?\}|www\.?|1tamilmv|movierulz|tamilblasters|tamilmv|@\w+|\.com|\.net|\.in|\bvet\b|\bpl\b|t\.me[^\s]+|https?://[^\s]+)", "", str(file_name))
     
-    for char in unwanted_chars:
-        file_name = file_name.replace(char, '')
-        
-    old_file_name = ' '.join(filter(lambda x: not x.startswith('@') and not x.startswith('http') and not x.startswith('www.') and not x.startswith('t.me'), file_name.split()))
+    # 2. Replace dots, hyphens, and underscores with spaces
+    file_name = re.sub(r"(_|\-|\.|\+)", " ", file_name)
+    
+    # 3. Clean up extra leftover spaces
+    old_file_name = ' '.join(file_name.split())
+    
+    # 4. Add formatting spaces
     new_file_name = add_space_between_e_and_number(old_file_name)
     return new_file_name
 
