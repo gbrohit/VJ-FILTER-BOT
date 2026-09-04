@@ -285,7 +285,8 @@ async def start(client, message):
                 except:
                     f_caption=f_caption
             if f_caption is None:
-                f_caption = f"{' '.join(filter(lambda x: not x.startswith('[') and not x.startswith('@'), files1['file_name'].split()))}"
+                clean_name = re.sub(r"(?i)(\[.*?\]|www\.?|1tamilmv|movierulz|tamilblasters|tamilmv|@\w+|\.com|\.net|\.in|\bvet\b|\bpl\b)", "", files1["file_name"])
+                f_caption = f"{' '.join(re.sub(r'(_|\-|\.|\+)', ' ', clean_name).split())}"
             if not await db.has_premium_access(message.from_user.id):
                 if not await check_verification(client, message.from_user.id) and VERIFY == True:
                     btn = [[
@@ -398,7 +399,8 @@ async def start(client, message):
         except:
             f_caption=f_caption
     if f_caption is None:
-        f_caption = f"{' '.join(filter(lambda x: not x.startswith('[') and not x.startswith('@'), files['file_name'].split()))}"
+        clean_name = re.sub(r"(?i)(\[.*?\]|www\.?|1tamilmv|movierulz|tamilblasters|tamilmv|@\w+|\.com|\.net|\.in|\bvet\b|\bpl\b)", "", files["file_name"])
+        f_caption = f"{' '.join(re.sub(r'(_|\-|\.|\+)', ' ', clean_name).split())}"
     if not await db.has_premium_access(message.from_user.id):
         if not await check_verification(client, message.from_user.id) and VERIFY == True:
             btn = [[
@@ -488,11 +490,9 @@ async def delete(bot, message):
     if result.deleted_count:
         await msg.edit('File is successfully deleted from database')
     else:
-        file_name = re.sub(r"(_|\-|\.|\+)", " ", str(media.file_name))
-        unwanted_chars = ['[', ']', '(', ')']
-        for char in unwanted_chars:
-            file_name = file_name.replace(char, '')
-        file_name = ' '.join(filter(lambda x: not x.startswith('@'), file_name.split()))
+        file_name = re.sub(r"(?i)(\[.*?\]|\(.*?\)|\{.*?\}|www\.?|1tamilmv|movierulz|tamilblasters|tamilmv|@\w+|\.com|\.net|\.in|\bvet\b|\bpl\b|t\.me[^\s]+|https?://[^\s]+)", "", str(media.file_name))
+        file_name = re.sub(r"(_|\-|\.|\+)", " ", file_name)
+        file_name = ' '.join(file_name.split())
     
         result = col.delete_many({
             'file_name': file_name,
