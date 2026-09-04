@@ -5,6 +5,7 @@ from pyrogram import Client, __version__, enums
 from database.users_chats_db import db
 from info import *
 from utils import temp
+from Script import script
 from aiohttp import web
 
 # Lightweight health server to satisfy PaaS port binding (Koyeb/Render)
@@ -24,6 +25,10 @@ class Bot(Client):
         )
 
     async def start(self):
+        # Display logo from script.py
+        if hasattr(script, 'LOGO'):
+            print(script.LOGO)
+
         # Start the minimal web server
         app = web.Application()
         app.router.add_get('/', health_check)
