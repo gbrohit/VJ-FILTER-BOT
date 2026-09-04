@@ -669,6 +669,16 @@ async def settings(client, message):
                     callback_data=f'setgs#is_shortlink#{settings["is_shortlink"]}#{grp_id}',
                 ),
             ],
+            [
+                InlineKeyboardButton(
+                    'Nᴏ-Rᴇsᴜʟᴛ Msɢ',
+                    callback_data=f'setgs#no_result_msg#{settings.get("no_result_msg", True)}#{grp_id}',
+                ),
+                InlineKeyboardButton(
+                    '✔ Oɴ' if settings.get("no_result_msg", True) else '✘ Oғғ',
+                    callback_data=f'setgs#no_result_msg#{settings.get("no_result_msg", True)}#{grp_id}',
+                ),
+            ],
         ]
         btn = [[
             InlineKeyboardButton("Oᴘᴇɴ Hᴇʀᴇ ↓", callback_data=f"opnsetgrp#{grp_id}"),
